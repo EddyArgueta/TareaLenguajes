@@ -52,11 +52,10 @@ class HomePage extends StatelessWidget {
               color:const Color.fromRGBO(97, 97, 97, 1),
             ),
 
-            CustomIconButton(
-              icon: Icons.account_circle_rounded,
+            CustomImageButton(
+              imagePath: 'assets/pokeball.png',
               iconSize: 25.0,
               onPressed: () {},
-              color: const Color.fromRGBO(97, 97, 97, 1),
             ),
           ],
 
