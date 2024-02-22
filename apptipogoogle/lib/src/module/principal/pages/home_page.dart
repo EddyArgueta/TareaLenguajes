@@ -52,6 +52,8 @@ class HomePage extends StatelessWidget {
               color:const Color.fromRGBO(97, 97, 97, 1),
             ),
 
+            //En el caso de haber sido un CustomIconButton
+            //En el Icon hubiera puesto un icon: Icons.account_rounded_outlined,
             CustomImageButton(
               imagePath: 'assets/pokeball.png',
               iconSize: 25.0,
