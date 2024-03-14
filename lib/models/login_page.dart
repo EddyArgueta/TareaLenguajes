@@ -23,28 +23,50 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 10.0,),
 
-            
-            TextField(
-              controller: emailController, 
-              maxLength: 30,
-              keyboardType: TextInputType.emailAddress,
+            Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                  controller: emailController, 
+                  maxLength: 30,
+                  validator: (value)
+                  {
+                    if (value!.isEmpty) {
+                      return 'El Correo es Obligatorio';
+                    }
 
-              decoration: const InputDecoration(
-                label: Text('Email'),
-                prefixIcon: Icon(Icons.email),
-                border: OutlineInputBorder(),
-              ),
-            ),
+                    if (!value.contains('@unah.hn')) 
+                    {
+                    return 'Por favor ingresa un correo electrónico válido de la UNAH';
+                    }
+
+                    if (value.length < 3)
+                    {
+                      return 'El Correo debe de tener mas de 3 Caracteres';
+                    }
+                    return null;
+
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                  label: Text('Correo Institucional'),
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(),
+                  ),
+                  ),
 
             const SizedBox(height: 20),
                 CustomInput(
                   controller: passwordController,
-                  obscureText: true,
                 ),
                 ],
               ),
              ),
+        ],
         ),
+        ),
+      ),
 
       floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -62,14 +84,13 @@ class LoginPage extends StatelessWidget {
 }
 
 class CustomInput extends StatefulWidget {
-  CustomInput({
+    CustomInput({
     super.key,
     required this.controller,
-    this.obscureText = false,
   });
 
   final TextEditingController controller;
-  bool obscureText;
+  bool _obscureText = true;
 
   @override
   State<CustomInput> createState() => _CustomInputState();
@@ -78,19 +99,42 @@ class CustomInput extends StatefulWidget {
 class _CustomInputState extends State<CustomInput> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.controller,
+      validator: (value)
+                  {
+                    if (value!.isEmpty) {
+                      return 'La Contraseña es Obligatoria';
+                    }
+
+                    if (value.length < 10)
+                    {
+                      return 'La Contraseña debe de tener 11 Caracteres';
+                    }
+
+                    if (value.length > 12 )
+                    {
+                      return 'La Contraseña debe de tener 11 Caracteres';
+                    }
+
+                    return null;
+                  },
       keyboardType: TextInputType.text,
-      obscureText: widget.obscureText,
+      obscureText: widget._obscureText,
       decoration: InputDecoration(
         label: const Text('Password'),
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
-            onPressed: () {
-              // TODO: logica para mostrar u ocultar el password
-            },
-            icon: const Icon(Icons.remove_red_eye_rounded)),
-        border: const OutlineInputBorder(),
+            icon: Icon(
+            widget._obscureText ? Icons.visibility_off : (Icons.visibility),
+            color: widget._obscureText ? Colors.grey : Colors.blue,
+          ),
+          onPressed: () {
+            setState(() {
+              widget._obscureText = !widget._obscureText;
+            });
+          },
+        ),
       ),
     );
   }
